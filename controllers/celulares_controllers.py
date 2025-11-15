@@ -17,7 +17,7 @@ def listar_celulares():
     try:
         celulares = db.query(Celular).all()
         return jsonify([
-            {"id": c.id, "modelo": c.modelo, "precio": c.precio, "marca_id": c.marca_id}
+            {"id": c.id, "modelo": c.modelo, "precio": c.precio, "marca_id": c.marca_id, "marca_nombre": c.marca.nombre if c.marca else None}
             for c in celulares
         ])
     finally:
@@ -31,7 +31,7 @@ def obtener_celular(celular_id):
         celular = db.query(Celular).filter(Celular.id == celular_id).first()
         if not celular:
             return jsonify({"error": "Celular no encontrado"}), 404
-        return jsonify({"id": celular.id, "modelo": celular.modelo, "precio": celular.precio, "marca_id": celular.marca_id})
+        return jsonify({"id": celular.id, "modelo": celular.modelo, "precio": celular.precio, "marca_id": celular.marca_id, "marca_nombre": celular.marca.nombre if celular.marca else None})
     finally:
         db.close()
 
@@ -52,7 +52,7 @@ def crear_celular():
         db.add(nuevo)
         db.commit()
         db.refresh(nuevo)
-        return jsonify({"id": nuevo.id, "modelo": nuevo.modelo}), 201
+        return jsonify({"id": nuevo.id, "modelo": nuevo.modelo, "precio": nuevo.precio, "marca_id": nuevo.marca_id, "marca_nombre": nuevo.marca.nombre if nuevo.marca else None}), 201
     finally:
         db.close()
 
@@ -89,7 +89,8 @@ def actualizar_celular(celular_id):
             "id": celular.id,
             "modelo": celular.modelo,
             "precio": celular.precio,
-            "marca_id": celular.marca_id
+            "marca_id": celular.marca_id,
+            "marca_nombre": celular.marca.nombre if celular.marca else None
         })
     finally:
         db.close()

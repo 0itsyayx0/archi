@@ -3,6 +3,7 @@ from config.database import SessionLocal
 from models.user_model import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
+import traceback
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -30,6 +31,10 @@ def register():
 		db.refresh(user)
 		token = create_access_token(identity=user.id)
 		return jsonify({'id': user.id, 'username': user.username, 'email': user.email, 'token': token}), 201
+	except Exception as e:
+		# En entorno de desarrollo, devolver traza para depuración
+		trace = traceback.format_exc()
+		return jsonify({'error': 'Excepción al registrar', 'message': str(e), 'trace': trace}), 500
 	finally:
 		db.close()
 
@@ -48,6 +53,9 @@ def login():
 		if not user or not check_password_hash(user.password_hash, password):
 			return jsonify({'error': 'Credenciales inválidas'}), 401
 		token = create_access_token(identity=user.id)
-		return jsonify({'token': token})
+		return jsonify({'token': token, 'username': user.username, 'id': user.id})
+	except Exception as e:
+		trace = traceback.format_exc()
+		return jsonify({'error': 'Excepción en login', 'message': str(e), 'trace': trace}), 500
 	finally:
 		db.close()

@@ -10,28 +10,49 @@
   <header class="site-header">
     <div class="logo">PhoneStore</div>
     <nav>
-      <a href="login.html">Iniciar sesión</a>
-      <a href="register.html">Registrarse</a>
+      <div id="auth-panel">
+        <div id="user-info" style="display:none;">
+          <span id="welcome">Conectado</span>
+          <button id="logout-btn">Cerrar sesión</button>
+        </div>
+        <div id="auth-forms">
+          <form id="inline-login-form" style="display:inline-block">
+            <input name="email" placeholder="Email" required />
+            <input name="password" type="password" placeholder="Contraseña" required />
+            <button type="submit">Entrar</button>
+          </form>
+          <form id="inline-register-form" style="display:inline-block; margin-left:8px">
+            <input name="username" placeholder="Usuario" required />
+            <input name="email" placeholder="Email" required />
+            <input name="password" type="password" placeholder="Contraseña" required />
+            <button type="submit">Registrarse</button>
+          </form>
+        </div>
+      </div>
     </nav>
   </header>
 
   <main class="container">
     <h1>Catálogo de Celulares</h1>
-    <section id="Celular" class="games-grid">
-      <!-- Los juegos aparecerán aquí -->
-    </section>
-
-    <aside class="panel">
+    
+    <section class="panel">
       <h2>Agregar Celular</h2>
       <form id="add-celular-form">
-        <label>Marca <input name="modelo" required></label>
+        <label>Modelo <input name="modelo" required></label>
         <label>Precio <input name="precio" type="number" step="0.01" required></label>
         <label>Marca ID <input name="marca_id" required></label>
         <button type="submit">Crear</button>
       </form>
-    </aside>
+    </section>
+
+    <section id="celulares-list" class="games-grid">
+      <!-- Los celulares aparecerán aquí -->
+    </section>
   </main>
 
+  <!-- Si sirves el frontend con Live Server u otro servidor estático,
+       fija la base de la API aquí para que las peticiones apunten al backend. -->
+  <script>window.API_BASE = 'http://localhost:5000';</script>
   <script src="js/api.js"></script>
   <script src="js/index.js"></script>
 </body>

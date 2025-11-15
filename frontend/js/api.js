@@ -1,6 +1,7 @@
 // api.js - funciones para comunicarse con el backend
-// Si no se define `window.API_BASE` en el HTML, usar como fallback el backend en localhost:5000
-// (útil cuando se sirve el frontend estático en otro puerto durante desarrollo)
+// Preferir `window.API_BASE` si está definida (se puede fijar desde el HTML).
+// Por defecto usar el backend de desarrollo en localhost:5000.
+// Esto evita enviar peticiones al servidor estático (ej. Live Server) por error.
 const API_BASE = window.API_BASE || 'http://localhost:5000';
 
 async function request(path, opts={}){

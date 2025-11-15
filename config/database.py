@@ -10,6 +10,10 @@ logging.basicConfig(level=logging.INFO)
 # Añadir la raíz del proyecto al sys.path para que los imports funcionen correctamente
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from models.celular_model import Base
+# Asegurar que todos los modelos estén importados para que SQLAlchemy los registre
+import models.user_model
+import models.revoked_token_model
+import models.celular_model
 
 # Cargar variables de entorno desde .env
 load_dotenv()
